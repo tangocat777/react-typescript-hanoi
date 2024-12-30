@@ -5,37 +5,65 @@ class Towers extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tower1: new Stack(),
-            tower2: new Stack(),
-            tower3: new Stack()
+            tower1: new Stack("tower1"),
+            tower2: new Stack("tower2"),
+            tower3: new Stack("tower3")
         };
       }
 
-    startTowers = (n: Number) => {
-        const first = new Stack();
-        const second = new Stack();
-        const third = new Stack();
+    startTowers = (n: number) => {
+        const first = new Stack("tower1");
+        const second = new Stack("tower2");
+        const third = new Stack("tower3");
 
-        for (let i = n as number; i > 0; i--) {
+        for (let i = n; i > 0; i--) {
             first.push(i);
         }
-        console.log(first);
         this.setState({
             tower1: first,
             tower2: second,
             tower3: third
-        });
+        }, () => this.beginSolveTowers(n));
+    }
+
+    async beginSolveTowers(n: number)
+    {
+        await this.delay();
+        this.solveTowers(n, this.state.tower1, this.state.tower3, this.state.tower2)
+    }
+
+    async solveTowers(n: number, from: Stack, to: Stack, auxilliary: Stack) {
+        if (n as number <= 0)
+        {
+            return;
+        }
+        await this.solveTowers(n - 1, from, auxilliary, to);
+
+        to.push(from.pop() ?? 0);
+        let newState = {};
+        newState[from.getName()] = from;
+        newState[to.getName()] = to;
+        newState[auxilliary.getName()] = auxilliary;
+        await this.setState(newState);
+
+        await this.delay();
+
+        await this.solveTowers(n - 1, auxilliary, to, from);
+    }
+
+    delay() {
+        return new Promise( resolve => setTimeout(resolve, 1000) );
     }
 
 
     render() {
-        return <div>
-            <div>
+        return <div className="container">
+            <div className="row">
                 <Tower stack={this.state.tower1}/>
                 <Tower stack={this.state.tower2}/>
                 <Tower stack={this.state.tower3}/>
             </div>
-            <div>
+            <div className="row">
                 <input type="button" onClick={() => this.startTowers(3)} value="3" />
             </div>
         </div>;

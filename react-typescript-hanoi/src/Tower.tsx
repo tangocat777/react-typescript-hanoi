@@ -2,13 +2,12 @@ import React from 'react';
 class Tower extends React.Component {
 
     render() {
-        console.log(this.props);
-        return (<div>
+        return (<span className="col-4">
             {
                 this.props.stack.getArray().map(
-                    (num: Number) => <input disabled="true" value={num}/>)
+                    (num: Number) => <div><input disabled={true} value={num}/></div>)
             }
-        </div>
+        </span>
     )};
 }
 

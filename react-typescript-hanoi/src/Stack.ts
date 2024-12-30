@@ -1,32 +1,37 @@
 export class Stack {
-    private internalArray: Number[];
-    // Private array to store stack elements
+    private internalArray: number[];
+    private name: string;
 
-    constructor() {
+    constructor(name: string) {
         this.internalArray = [];
+        this.name = name;
     }
 
-    push(element: Number): void {
+    push(element: number): void {
         this.internalArray.push(element);
     }
 
-    pop(): Number | undefined {
+    pop(): number | undefined {
         return this
             .internalArray.pop();
     }
 
-    peek(): Number | undefined {
+    peek(): number | undefined {
         return this
             .internalArray[this.internalArray.length - 1];
     }
 
-    size(): Number {
+    size(): number {
         return this
             .internalArray.length;
     }
 
-    getArray(): Number[] {
-        return this.internalArray;
+    getArray(): number[] {
+        return this.internalArray.slice().reverse();
+    }
+
+    getName(): string {
+        return this.name;
     }
 }
 

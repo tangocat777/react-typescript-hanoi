@@ -1,4 +1,4 @@
-class Stack {
+export class Stack {
     private internalArray: Number[];
     // Private array to store stack elements
 
@@ -24,4 +24,10 @@ class Stack {
         return this
             .internalArray.length;
     }
+
+    getArray(): Number[] {
+        return this.internalArray;
+    }
 }
+
+export default Stack
